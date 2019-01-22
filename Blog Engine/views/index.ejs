@@ -8,7 +8,7 @@
         </h3> -->
         <br>
         <h3>Welcome to our Blog Engine</h3><br>
-        <% for (let article of articles) { %>
+        <% for (let article of articles.reverse()) { %>
         <div>
             <a href="/article/<%= article._id %>" class="list-group-item clearfix">
                 <div class="float-left">
