@@ -80,7 +80,7 @@ app.get('/article', (req, res,next) => {
     console.log('add page');
 });
 
-//get single article
+
 app.get('/article/:id', function (req, res){
     Article.findById(req.params.id, function(err, article){
         res.render('view-article', {
