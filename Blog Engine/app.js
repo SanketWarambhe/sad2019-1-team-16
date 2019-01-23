@@ -189,5 +189,16 @@ app.delete('/article/:id', function(req, res){
         res.send('Success');
     });
 });
+//edit profile route
+app.get('/edit-profile', (req, res) => {
+    res.render('edit-profile', {
+        title: 'Edit Profile page'
+    });
+});
+app.get('/profile',(req, res) => {
+    res.render('profile', {
+        title:'profile page'
+    } );
+});
 
 app.listen(1010);
