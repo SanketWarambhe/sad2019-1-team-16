@@ -12,8 +12,12 @@
   "dependencies": {
     "body-parser": "^1.18.3",
     "bootstrap": "^4.2.1",
+    "connect-flash": "^0.1.1",
     "ejs": "^2.6.1",
     "express": "^4.16.4",
+    "express-messages": "^1.0.1",
+    "express-session": "^1.15.6",
+    "express-validator": "^5.3.1",
     "glyphicons": "^0.2.0",
     "jquery": "^3.3.1",
     "mongoose": "^5.4.4",

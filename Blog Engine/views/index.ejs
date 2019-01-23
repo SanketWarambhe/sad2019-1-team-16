@@ -8,6 +8,7 @@
         </h3> -->
         <br>
         <h3>Welcome to our Blog Engine</h3><br>
+        <%- messages('includes/message', locals) %>
         <% for (let article of articles.reverse()) { %>
         <div>
             <a href="/article/<%= article._id %>" class="list-group-item clearfix">
@@ -28,7 +29,7 @@
                     </p>
                 </div>
                 <div class="float-right">
-                    <img src="<%= article.articleImage %>" alt="" class="img-responsive" width="150px" height="110px">
+                    <img src="<%= article.articleImage %>" alt="" class="img-responsive" width="150px" height="116px">
                 </div>
             </a>
 
