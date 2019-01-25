@@ -25,8 +25,9 @@ const fileFilter = (req, file, cb) => {
     else {
         cb(null, false);
     }
-} 
-const upload = multer({storage: storage,
+}
+const upload = multer({
+    storage: storage,
     limit: {
         fileSize: 1024 * 1024 * 5 //max 5 mb image upload
     },
@@ -107,6 +108,25 @@ app.get('/article/:id', function (req, res){
         res.render('view-article', {
             title: 'View Article',
             article: article
+        });
+    });
+});
+
+//Adding Comments middleware
+app.post('/article/:id', function (req, res) {
+    Article.findById(req.params.id, function (err, article) {
+        article.comment.push(req.body.comment);
+        let query = { _id: req.params.id }
+        Article.update(query, article, function (err) {
+            if (err) {
+                console.log(err);
+                return;
+            } else {
+                res.render('view-article', {
+                    title: 'View Article',
+                    article: article
+                });
+            }
         });
     });
 });

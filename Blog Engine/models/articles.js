@@ -16,7 +16,11 @@ let articleSchema = mongoose.Schema({
     articleImage: {
         type: String, 
         required: false
-    }
+    },
+    comment: [{
+        type: String,
+        required: false
+    }]
 });
 
 let Article = module.exports = mongoose.model('Article', articleSchema);

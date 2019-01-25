@@ -1,9 +1,11 @@
 <%- include('includes/header.ejs') %>
+
 <body>
     <%- include('includes/navigation.ejs') %>
     <div class="container">
         <br>
         <li class="list-group-item">
+            
             <h4>
                 <%= article.title %>
             </h4>
@@ -14,10 +16,28 @@
             <hr>
             <%= article.body %>
         </li>
-    <br>
+        <br>
         <a class="btn btn-default" href="/article/edit/<%= article._id %>">Edit</a>
         <a class="btn btn-danger delete-article" data-id="<%= article._id %>" href="#">Delete Post</a>
-    </div>
+        <br>
+        <form class="product-form col-lg-6" action="/article/<%= article._id %>" method="POST">
+            <div class="form-group">
+                <br>
+                <h5>Comments</h5>
+                <textarea class="form-control" type="text" name="comment" id="comment" rows=5></textarea> <br> 
+                <button class="btn btn-success" type="submit" value="Submit">Enter</button>
+                <br><br>
+            </div>
+        </form>
+        <h5 style="text-align: center">User Comments:</h5>
+        <% if(article.comment != null || article.comment != undefined) { for (let com of article.comment) { %>
+            <li class="list-group-item" style="border-width: 3px;">
+            <p><%= com   %></p>
+        <% } } %>
+        <% if (article.comment === undefined || article.comment.length == 0){ %>
+        <h5 style="padding-bottom: 50px">Be the first to post a comment.</h5>
+        <% } %>
+    </div>     
 </body>
 
 </html>
