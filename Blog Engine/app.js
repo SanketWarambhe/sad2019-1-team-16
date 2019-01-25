@@ -201,4 +201,10 @@ app.get('/profile',(req, res) => {
     } );
 });
 
+app.use('/', (req, res, next) => {
+    res.render('404', {
+        title: 'Page Not Found'
+    })
+});
+
 app.listen(1010);
