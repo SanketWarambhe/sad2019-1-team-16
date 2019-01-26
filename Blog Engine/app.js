@@ -6,7 +6,7 @@ const multer = require('multer');
 const expressValidator = require('express-validator');
 const flash = require('connect-flash');
 const session = require('express-session');
-
+var nodemailer = require('nodemailer');
 const ITEMS_PER_PAGE = 3;
 
 //Strategy for storing images
@@ -233,12 +233,69 @@ app.get('/edit-profile', (req, res) => {
         title: 'Edit Profile page'
     });
 });
+//my profile route
 app.get('/profile',(req, res) => {
     res.render('profile', {
         title:'profile page'
     } );
 });
+//contact us route
+app.get('/contact-us',(req,res) => {
+    res.render('contact-us', {
+        title:'contact us page',
+        msg: 'Enter your details below'
+    });
+});
+app.post('/send', (req,res)=> {
+    const output=`
+    <h3>You have a new contact </h3>
+     <h3>Contact details </h3>
+     <ul>
+     <li>FullName: ${req.body.FullName} </li>
+     <li>Email: ${req.body.Email} </li>
+     <li>Contact: ${req.body.Contact} </li>   
+     </ul>
+     <h3> Message  </h3>
+     <p>  ${req.body.Message}   </p>
+    `;
+     // create reusable transporter object using the default SMTP transport
+  let transporter = nodemailer.createTransport({
+    host: 'smtp.gmail.com',
+    port: 587,
+    secure: false, // true for 465, false for other ports
+    auth: {
+      user: 'noreply.blogengine@gmail.com', // generated ethereal user
+      pass: 'sarangsanket' // generated ethereal password
+    },
+    tls:{
+        rejectUnauthorized:false
+    }
+  });
 
+  // setup email data with unicode symbols
+  let mailOptions = {
+    from: '"Blog Engine" <noreply.blogengine@gmail>', // sender address
+    to: "samarthsarang1@gmail.com, sanketwarambhe@gmail.com", // list of receivers
+    subject: "New user contact", // Subject line
+    text: 'Hello Word', // plain text body
+    html: output // html body
+  };
+
+  // send mail with defined transport object
+  transporter.sendMail(mailOptions, (error,info)=> {
+
+    if (error) {
+        return console.log(error);
+    }
+    console.log("Message sent: %s", info.messageId);
+    console.log("Preview URL: %s", nodemailer.getTestMessageUrl(info));
+     res.render('contact-us', {
+         msg:'Email has been sent',
+         title: 'Contact us'
+        }) ;
+    
+});
+});
 app.use('/', (req, res, next) => {
     res.render('404', {
         title: 'Page Not Found'
