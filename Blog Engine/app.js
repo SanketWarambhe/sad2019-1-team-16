@@ -7,6 +7,8 @@ const expressValidator = require('express-validator');
 const flash = require('connect-flash');
 const session = require('express-session');
 
+const ITEMS_PER_PAGE = 3;
+
 //Strategy for storing images
 const storage = multer.diskStorage({
     destination: function(req, res, cb) {
@@ -82,15 +84,31 @@ app.use(function (req, res, next) {
 app.use(expressValidator());
 
 app.get('/', (req, res, next) => {
-    Article.find({}, function(err, articles) {
-        if(err){
+
+    const page = +req.query.page  || 1;
+    let totalItems;
+    
+    Article.find().countDocuments()
+    .then(numArticles => {
+        totalItems = numArticles;
+        return Article.find().sort({$natural:-1})
+            .skip((page - 1) * ITEMS_PER_PAGE)
+            .limit(ITEMS_PER_PAGE)
+    })
+    .then(articles => {
+        res.render('index', {
+            title: 'Articles',
+            articles: articles,
+            currentPage: page,
+            hasNextPage: ITEMS_PER_PAGE * page < totalItems,
+            hasPreviousPage: page > 1,
+            nextPage: page + 1,
+            previousPage: page - 1,
+            lastPage: Math.ceil(totalItems / ITEMS_PER_PAGE)
+        });
+    }).catch(err => {
+        if (err) {
             console.log(err);
-        }
-        else{
-            res.render('index', {
-                title: 'Articles',
-                articles: articles
-            })
         }
     });
 });

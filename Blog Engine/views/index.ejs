@@ -9,7 +9,7 @@
         <br>
         <h3>Welcome to our Blog Engine</h3><br>
         <%- messages('includes/message', locals) %>
-        <% for (let article of articles.reverse()) { %>
+        <% for (let article of articles) { %>
         <div>
             <a href="/article/<%= article._id %>" class="list-group-item clearfix">
                 <div class="float-left">
@@ -35,6 +35,25 @@
 
         </div>
         <% } %>
+        <section class="pagination">
+            <% if (currentPage !== 1 && previousPage !== 1) { %>
+            <a href="?page=1">1</a>
+            <% } %>
+            <% if (hasPreviousPage) { %>
+            <a href="?page=<%= previousPage %>">
+                <%= previousPage %></a>
+            <% } %>
+            <a href="?page=<%= currentPage %>" class="active">
+                <%= currentPage %></a>
+            <% if (hasNextPage) { %>
+            <a href="?page=<%= nextPage %>">
+                <%= nextPage %></a>
+            <% } %>
+            <% if (lastPage !== currentPage && nextPage !== lastPage) { %>
+            <a href="?page=<%= lastPage %>">
+                <%= lastPage %></a>
+            <% } %>
+        </section>
     </div>
 </body>
 
