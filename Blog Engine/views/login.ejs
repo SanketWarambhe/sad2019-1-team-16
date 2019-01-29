@@ -1,0 +1,22 @@
+<%- include('includes/header.ejs') %>
+    <body>
+        <%- include('includes/navigation.ejs') %>
+        <div class="container">
+            <br>
+            <%- messages('includes/message', locals) %>
+            <h3>Login</h3><br>
+            <form class="product-form col-lg-6" action="/users/login" method="POST">
+                <div class="form-group">
+                    <label for="Author">Username</label>
+                    <input class="form-control" type="text" name="username" id="username">
+                </div>
+                <div class="form-group">
+                    <label for="Author">Password</label>
+                    <input class="form-control" type="password" name="password2" id="password2">
+                </div>
+        
+                <button class="btn btn-primary" type="submit" value="Submit">Login</button>
+            </form>
+        </div>
+    </body>
+</html>

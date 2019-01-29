@@ -296,6 +296,11 @@ app.post('/send', (req,res)=> {
     
 });
 });
+
+//Route files
+let users = require('./routes/users');
+app.use('/users',users);
+
 app.use('/', (req, res, next) => {
     res.render('404', {
         title: 'Page Not Found'

@@ -1,0 +1,44 @@
+<%- include('includes/header.ejs') %>
+    <body>
+        <%- include('includes/navigation.ejs') %>
+        <div class="container">
+            <br>
+            <%- messages('includes/message', locals) %>
+            <% if(errors) {
+                for (let error of errors) {
+            %>
+            <div class="alert alert-danger"><%= error.msg %></div>
+            <%  } 
+            }%>
+            <h3>Registration form:</h3><br>
+            <form class="product-form col-lg-6" action="/users/register" method="POST" enctype="multipart/form-data">
+                <div class="form-group">
+                    <label for="Title">Name</label>
+                    <input class="form-control" type="text" name="name" id="name">
+                </div>
+                <div class="form-group">
+                    <label for="Author">Email</label>
+                    <input class="form-control" type="text" name="email" id="email">
+                </div>
+                <div class="form-group">
+                    <label for="Author">Username</label>
+                    <input class="form-control" type="text" name="username" id="username">
+                </div>
+                <div class="form-group">
+                    <label for="Author">Password</label>
+                    <input class="form-control" type="password" name="password" id="password">
+                </div>
+                <div class="form-group">
+                    <label for="Author">Confirm Password</label>
+                    <input class="form-control" type="password" name="password2" id="password2">
+                </div>
+                <div class="form-group">
+                    <label for="Title">Profile Picture</label>
+                    <input class="form-control" type="file" name="profilePicture" id="file" style="padding: 3px;">
+                </div>
+        
+                <button class="btn btn-primary" type="submit" value="Submit">Register</button>
+            </form>
+        </div>
+    </body>
+</html>
