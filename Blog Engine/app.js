@@ -7,6 +7,8 @@ const expressValidator = require('express-validator');
 const flash = require('connect-flash');
 const session = require('express-session');
 var nodemailer = require('nodemailer');
+const passport =require('passport');
+const config = require('./config/database');
 const ITEMS_PER_PAGE = 3;
 
 //Strategy for storing images
@@ -36,7 +38,7 @@ const upload = multer({
     fileFilter: fileFilter
 });
 
-mongoose.connect('mongodb://localhost/nodekb', { useNewUrlParser: true });
+mongoose.connect(config.database, { useNewUrlParser: true });
 let db = mongoose.connection;
 
 //Check for successful connections
@@ -82,6 +84,18 @@ app.use(function (req, res, next) {
 
 //Express Validator middleware
 app.use(expressValidator());
+
+//Passport Config
+require('./config/passport')(passport);
+//Passport middleware
+app.use(passport.initialize());
+app.use(passport.session());
+
+app.get('*', function(req, res, next){
+    res.locals.user = req.user || null;
+    next();
+});
+
 
 app.get('/', (req, res, next) => {
 
