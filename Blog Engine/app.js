@@ -297,6 +297,12 @@ app.post('/contact-us', (req,res)=> {
 //Route files
 let users = require('./routes/users');
 app.use('/users',users);
+//about us route
+app.get('/about-us',(req,res)=>{
+    res.render('about-us',{
+       title:'about us page'
+    });
+});
 
 app.use('/', (req, res, next) => {
     res.render('404', {
