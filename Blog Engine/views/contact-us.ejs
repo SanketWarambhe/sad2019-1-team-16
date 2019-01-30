@@ -4,10 +4,9 @@
     <%- include('includes/navigation.ejs') %>
     <div class="container">
         <br>
-        <form class="product-form col-lg-6" method="POST" action="/send">
+        <form class="product-form col-lg-6" method="POST" action="/contact-us">
             <h3> Contact Us </h3>
-            <%= msg %>
-
+            <%- messages('includes/message', locals) %>
             <div class="form-group">
                 <label for="FullName">FullName</label>
                 <input class="form-control" type="text" name="FullName" id="fullname">

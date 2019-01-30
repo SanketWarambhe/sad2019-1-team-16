@@ -246,7 +246,7 @@ app.get('/contact-us',(req,res) => {
         msg: 'Enter your details below'
     });
 });
-app.post('/send', (req,res)=> {
+app.post('/contact-us', (req,res)=> {
     const output=`
     <h3>You have a new contact </h3>
      <h3>Contact details </h3>
@@ -289,12 +289,9 @@ app.post('/send', (req,res)=> {
     }
     console.log("Message sent: %s", info.messageId);
     console.log("Preview URL: %s", nodemailer.getTestMessageUrl(info));
-     res.render('contact-us', {
-         msg:'Email has been sent',
-         title: 'Contact us'
-        }) ;
-    
-});
+    req.flash('success', 'Email sent successfully');
+    res.redirect('/');
+  });
 });
 
 //Route files
