@@ -17,10 +17,10 @@
             <%= article.body %>
         </li>
         <br>
-        <a class="btn btn-default" href="/article/edit/<%= article._id %>">Edit</a>
+        <a class="btn btn-default" href="/articles/edit/<%= article._id %>">Edit</a>
         <a class="btn btn-danger delete-article" data-id="<%= article._id %>" href="#">Delete Post</a>
         <br>
-        <form class="product-form col-lg-6" action="/article/<%= article._id %>" method="POST">
+        <form class="product-form col-lg-6" action="/articles/<%= article._id %>" method="POST">
             <div class="form-group">
                 <br>
                 <h5>Comments</h5>

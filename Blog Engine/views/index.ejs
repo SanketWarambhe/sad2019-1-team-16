@@ -7,11 +7,11 @@
             <%= articles %>
         </h3> -->
         <br>
-        <h3 style="padding-bottom: 10px">Welcome to our Blog Engine</h3>
+        <h3 style="padding-bottom: 10px; text-align: center; font-style: oblique">Welcome to our Blog Engine</h3>
         <%- messages('includes/message', locals) %>
         <% for (let article of articles) { %>
         <div>
-            <a href="/article/<%= article._id %>" class="list-group-item clearfix">
+            <a href="/articles/<%= article._id %>" class="list-group-item clearfix">
                 <div class="float-left">
 
                     <h4 class="list-group-item-heading">
