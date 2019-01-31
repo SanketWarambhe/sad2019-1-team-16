@@ -9,6 +9,7 @@ const session = require('express-session');
 var nodemailer = require('nodemailer');
 const passport =require('passport');
 const config = require('./config/database');
+const errorController = require('./controller/error');
 const ITEMS_PER_PAGE = 3;
 
 mongoose.connect(config.database, { useNewUrlParser: true });
@@ -182,10 +183,6 @@ app.get('/about-us',(req,res)=>{
     });
 });
 
-app.use('/', (req, res, next) => {
-    res.render('404', {
-        title: 'Page Not Found'
-    })
-});
+app.use(errorController.get404);
 
 app.listen(1010);
