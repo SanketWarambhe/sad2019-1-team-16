@@ -1,36 +1,9 @@
 const express = require('express');
 const router = express.Router();
 const bcrypt = require('bcryptjs');
-const multer = require('multer');
 const passport = require('passport');
+const imageStorageStartegy = require('../controller/imageStorage');
 var nodemailer = require('nodemailer');
-
-//Strategy for storing images
-const storage = multer.diskStorage({
-    destination: function (req, res, cb) {
-        cb(null, './uploads/');
-    },
-    filename: function (req, file, cb) {
-        cb(null, new Date().toISOString().replace(/:/g, '-') + file.originalname);
-    }
-});
-
-const fileFilter = (req, file, cb) => {
-    //rejecting a file
-    if (file.mimetype === 'image/jpeg' || file.mimetype === 'image/png') {
-        cb(null, true);
-    }
-    else {
-        cb(null, false);
-    }
-}
-const upload = multer({
-    storage: storage,
-    limit: {
-        fileSize: 1024 * 1024 * 5 //max 5 mb image upload
-    },
-    fileFilter: fileFilter
-});
 
 
 //Getting user model
@@ -44,7 +17,7 @@ router.get('/register', function(req, res) {
     });
 });
 
-router.post('/register', upload.single('profilePicture'), function(req, res) {
+router.post('/register', imageStorageStartegy.single('profilePicture'), function(req, res) {
     const name = req.body.name;
     const email = req.body.email;
     const username = req.body.username;

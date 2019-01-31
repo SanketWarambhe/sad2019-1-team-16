@@ -1,38 +1,9 @@
 const express = require('express');
 const router = express.Router();
-
-const flash = require('connect-flash');
-const multer = require('multer');
+const imageStorageStartegy = require('../controller/imageStorage');
 
 //Getting out models
 let Article = require('../models/articles');
-
-//Strategy for storing images
-const storage = multer.diskStorage({
-    destination: function (req, res, cb) {
-        cb(null, './uploads/');
-    },
-    filename: function (req, file, cb) {
-        cb(null, new Date().toISOString().replace(/:/g, '-') + file.originalname);
-    }
-});
-
-const fileFilter = (req, file, cb) => {
-    //rejecting a file
-    if (file.mimetype === 'image/jpeg' || file.mimetype === 'image/png') {
-        cb(null, true);
-    }
-    else {
-        cb(null, false);
-    }
-}
-const upload = multer({
-    storage: storage,
-    limit: {
-        fileSize: 1024 * 1024 * 5 //max 5 mb image upload
-    },
-    fileFilter: fileFilter
-});
 
 router.get('/', (req, res, next) => {
     res.render('add-article', {
@@ -43,7 +14,7 @@ router.get('/', (req, res, next) => {
 });
 
 //POST route for submiting articles
-router.post('/', upload.single('articleImage'), (req, res, next) => {
+router.post('/', imageStorageStartegy.single('articleImage'), (req, res, next) => {
     console.log(req.file);
 
     req.checkBody('title', 'Title is required').notEmpty();
@@ -118,7 +89,7 @@ router.get('/edit/:id', function (req, res) {
 });
 
 //Update Submit POST Route
-router.post('/edit/:id', upload.single('articleImage'), (req, res, next) => {
+router.post('/edit/:id', imageStorageStartegy.single('articleImage'), (req, res, next) => {
     console.log(req.file);
     let article = {};
     article.title = req.body.title;
