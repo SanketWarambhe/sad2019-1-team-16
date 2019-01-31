@@ -2,11 +2,8 @@ const express = require('express');
 const mongoose = require('mongoose');
 const path = require('path');
 const bodyParser = require('body-parser');
-
 const expressValidator = require('express-validator');
-
 const session = require('express-session');
-var nodemailer = require('nodemailer');
 const passport =require('passport');
 const config = require('./config/database');
 const errorController = require('./controller/error');
@@ -115,60 +112,7 @@ app.get('/profile',(req, res) => {
         title:'profile page'
     } );
 });
-//contact us route
-app.get('/contact-us',(req,res) => {
-    res.render('contact-us', {
-        title:'Contact Us',
-        msg: 'Enter your details below'
-    });
-});
-app.post('/contact-us', (req,res)=> {
-    const output=`
-    <h3>You have a new contact </h3>
-     <h3>Contact details </h3>
-     <ul>
-     <li>FullName: ${req.body.FullName} </li>
-     <li>Email: ${req.body.Email} </li>
-     <li>Contact: ${req.body.Contact} </li>   
-     </ul>
-     <h3> Message  </h3>
-     <p>  ${req.body.Message}   </p>
-    `;
-     // create reusable transporter object using the default SMTP transport
-  let transporter = nodemailer.createTransport({
-    host: 'smtp.gmail.com',
-    port: 587,
-    secure: false, // true for 465, false for other ports
-    auth: {
-      user: 'noreply.blogengine@gmail.com', // generated ethereal user
-      pass: 'sarangsanket' // generated ethereal password
-    },
-    tls:{
-        rejectUnauthorized:false
-    }
-  });
 
-  // setup email data with unicode symbols
-  let mailOptions = {
-    from: '"Blog Engine" <noreply.blogengine@gmail>', // sender address
-    to: "samarthsarang1@gmail.com, sanketwarambhe@gmail.com", // list of receivers
-    subject: "New user contact", // Subject line
-    text: 'Hello Word', // plain text body
-    html: output // html body
-  };
-
-  // send mail with defined transport object
-  transporter.sendMail(mailOptions, (error,info)=> {
-
-    if (error) {
-        return console.log(error);
-    }
-    console.log("Message sent: %s", info.messageId);
-    console.log("Preview URL: %s", nodemailer.getTestMessageUrl(info));
-    req.flash('success', 'Email sent successfully');
-    res.redirect('/');
-  });
-});
 
 //Route files
 let users = require('./routes/users');
