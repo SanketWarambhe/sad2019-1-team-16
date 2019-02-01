@@ -5,7 +5,7 @@ const imageStorageStartegy = require('../controller/imageStorage');
 //Getting out models
 let Article = require('../models/articles');
 
-router.get('/', (req, res, next) => {
+router.get('/', checkAuthentication, (req, res, next) => {
     res.render('add-article', {
         title: 'Add Article',
         errors: null
@@ -25,6 +25,7 @@ router.post('/', imageStorageStartegy.single('articleImage'), (req, res, next) =
     let errors = req.validationErrors();
 
     if (errors) {
+        res.locals.user = req.user
         res.render('add-article', {
             title: 'Add-Article',
             errors: errors
@@ -34,7 +35,9 @@ router.post('/', imageStorageStartegy.single('articleImage'), (req, res, next) =
         article.title = req.body.title;
         article.author = req.body.author;
         article.body = req.body.body;
-        article.articleImage = req.file.filename;
+        if(req.file !=undefined || req.file != null){
+            article.articleImage = req.file.filename;
+        }
         article.save(err => {
             if (err) {
                 console.log(err);
@@ -67,6 +70,7 @@ router.post('/:id', function (req, res) {
                 console.log(err);
                 return;
             } else {
+                res.locals.user = req.user;
                 res.render('view-article', {
                     title: 'View Article',
                     article: article
@@ -89,7 +93,7 @@ router.get('/edit/:id', function (req, res) {
 });
 
 //Update Submit POST Route
-router.post('/edit/:id', imageStorageStartegy.single('articleImage'), (req, res, next) => {
+router.post('/edit/:id', checkAuthentication, imageStorageStartegy.single('articleImage'), (req, res, next) => {
     console.log(req.file);
     let article = {};
     article.title = req.body.title;
@@ -122,5 +126,15 @@ router.delete('/:id', function (req, res) {
         res.send('Success');
     });
 });
+
+function checkAuthentication(req, res, next){
+    if(req.isAuthenticated()){
+        return next();
+    }
+    else{
+        req.flash('danger', 'Please Login!');
+        res.redirect('/users/login');
+    }
+}
 
 module.exports = router;

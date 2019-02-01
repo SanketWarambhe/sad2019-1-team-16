@@ -37,6 +37,7 @@ router.post('/register', imageStorageStartegy.single('profilePicture'), function
     let errors = req.validationErrors();
 
     if(errors){
+        res.locals.user = req.user;
         res.render('register', {
             title: 'User Registration',
             errors: errors
