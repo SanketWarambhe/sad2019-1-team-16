@@ -152,5 +152,29 @@ router.post('/contact-us', (req,res)=> {
   });
 });
 
+//view profile route
+router.get('/view/:id',(req, res) => {
+    User.findById(req.params.id, function (err, user) {
+        res.render('profile', {
+            title: 'View Profile',
+            user: user
+        });
+    });
+});
+
+router.get('/edit/:id',(req, res) => {
+    User.findById(req.params.id, function (err, user) {
+        res.locals.user = req.user;
+        res.render('edit-profile', {
+            title: 'Edit Profile',
+            user: user
+        });
+    });
+});
+
+router.post('/edit/:id', (req, res) => {
+    console.log('Post route for editing user-');
+    res.redirect('/');
+});
 
 module.exports = router;

@@ -3,14 +3,15 @@
         <%- include('includes/navigation.ejs') %>
         <div class="container">
         <h3> My Profile </h3>
-        <img src="beach.jpg" alt="sexy beach" style="width:200px;height:200px;"
+        <img src="/<%= user.profilePicture %>" alt="Sexy Sanket" style="width:200px;height:200px;">
         <br>
         <br>
         <br>
-      <p> FullName: </p>
-        <p>Email:</p>
-        <p>Contact:</p>
-        <button class="btn btn-success" type="submit" value="Submit">Edit Profile</button>
+        <p>FullName: <%= user.name %></p>
+        <p>Email: <%= user.email %></p>
+        <p>Username: <%= user.username %></p>
+
+        <a class="btn btn-success"  href="/users/edit/<%= user._id %>">Edit Profile</a>
 </div>
 </body>
 </html>

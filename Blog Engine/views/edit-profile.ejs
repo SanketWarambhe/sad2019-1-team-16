@@ -3,23 +3,31 @@
         <%- include('includes/navigation.ejs') %>
         <div class="container">
             <br>
-        <form class="product-form col-lg-6"  method="POST" enctype="multipart/form-data">
+        <form class="product-form col-lg-6"  method="POST" action="/users/edit/<%= user._id %>">
                 <h3>  My Profile  </h3>
-                <img src="beach.jpg" alt="sexy beach" style="width:200px;height:200px;">
+                <img src="/<%= user.profilePicture %>" style="width:200px;height:200px;">
                 <br>
                 <br>
                 <div class="form-group">
                         <label for="FullName">FullName</label>
-                        <input class="form-control" type="text" name="FullName" id="fullName" >
+                        <input class="form-control" type="text" name="FullName" id="fullName" value="<%= user.name %>" disabled="true">
                     </div>
                     <div class="form-group">
                         <label for="Email">Email</label>
-                        <input class="form-control" type="text" name="Email" id="email" >
+                        <input class="form-control" type="text" name="Email" id="email" value="<%= user.email %>" disabled="true">
                     </div>
                     <div class="form-group">
-                        <label for="Contact">Contact</label>
-                        <input class="form-control" type="text" name="Contact" id="contact" >
-                    </div>  
+                        <label for="Email">Email</label>
+                        <input class="form-control" type="text" name="username" id="username" value="<%= user.username %>" disabled="true">
+                    </div>
+                    <div class="form-group">
+                        <label for="Email">Password</label>
+                        <input class="form-control" type="text" name="password" id="password">
+                    </div>
+                    <div class="form-group">
+                        <label for="Email">Confirm Password</label>
+                        <input class="form-control" type="text" name="password" id="password">
+                    </div>
                     <button class="btn btn-success" type="submit" value="Submit">Save Changes</button>
 
                 </form>
