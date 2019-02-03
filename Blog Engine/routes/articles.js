@@ -69,21 +69,25 @@ router.get('/:id', function (req, res) {
 //Adding Comments middleware
 router.post('/:id', function (req, res) {
     Article.findById(req.params.id, function (err, article) {
-        article.comment.push(req.body.comment);
-        let query = { _id: req.params.id }
-        Article.update(query, article, function (err) {
-            if (err) {
-                console.log(err);
-                return;
-            } else {
-                res.locals.user = req.user;
-                res.render('view-article', {
-                    title: 'View Article',
-                    article: article,
-                    author: article.author
-                });
-            }
+        User.findById(article.userAuthorID, function (err, user) {
+            article.comment.push(req.body.comment);
+            let query = { _id: req.params.id }
+            Article.update(query, article, function (err) {
+                if (err) {
+                    console.log(err);
+                    return;
+                } else {
+                    res.locals.user = req.user;
+                    res.render('view-article', {
+                        title: 'View Article',
+                        article: article,
+                        author: article.author,
+                        email: user.email
+                    });
+                }
+            });
         });
+        
     });
 });
 
