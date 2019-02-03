@@ -10,15 +10,20 @@
                 <%= article.title %>
             </h4>
             <hr>
-            Written By:
-            <%= article.author %>
+            Written By: <%= author %>
+            
+            <p class="float-right">Email-ID: <a href = "mailto: <%= email %>"><%= email %></a></p>
             <hr><img src="/<%= article.articleImage %>" alt="" class="img-responsive" width="100%">
             <hr>
             <%= article.body %>
         </li>
         <br>
-        <a class="btn btn-default" href="/articles/edit/<%= article._id %>">Edit</a>
-        <a class="btn btn-danger delete-article" data-id="<%= article._id %>" href="#">Delete Post</a>
+        
+        <% if(user) { %>
+            <% if(user.id == article.userAuthorID) { %>
+                <a class="btn btn-default" href="/articles/edit/<%= article._id %>">Edit</a>
+                <a class="btn btn-danger delete-article" data-id="<%= article._id %>" href="#">Delete Post</a>
+        <% } } %>
         <br>
         <form class="product-form col-lg-6" action="/articles/<%= article._id %>" method="POST">
             <div class="form-group">
@@ -33,7 +38,7 @@
         <% if(article.comment != null || article.comment != undefined) { for (let com of article.comment.reverse()) { %>
             <li class="list-group-item" style="border-width: 3px;">
                 <div class="clearfix float-comment">
-                <img src="/display-pic.png" alt="" class="img-responsive" width="50px" height="50px">
+                <img src="/display-pic.png" alt="" class="img-responsive" width="50px" height="50px" style="border-style:groove">
                 <p style="padding-left: 15px"><%= com   %></p>
                 </div>
             </li>

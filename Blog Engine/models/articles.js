@@ -20,7 +20,11 @@ let articleSchema = mongoose.Schema({
     comment: [{
         type: String,
         required: false
-    }]
+    }],
+    userAuthorID:{
+        type: String,
+        required: false,
+    }
 });
 
 let Article = module.exports = mongoose.model('Article', articleSchema);

@@ -4,10 +4,12 @@ const imageStorageStartegy = require('../controller/imageStorage');
 
 //Getting out models
 let Article = require('../models/articles');
+let User = require('../models/user');
 
 router.get('/', checkAuthentication, (req, res, next) => {
     res.render('add-article', {
         title: 'Add Article',
+        author: req.user.name,
         errors: null
     });
     console.log('add page');
@@ -18,7 +20,6 @@ router.post('/', imageStorageStartegy.single('articleImage'), (req, res, next) =
     console.log(req.file);
 
     req.checkBody('title', 'Title is required').notEmpty();
-    req.checkBody('author', 'Author is required').notEmpty();
     req.checkBody('body', 'Article body is required').notEmpty();
 
     // Getting all validation errors
@@ -33,8 +34,9 @@ router.post('/', imageStorageStartegy.single('articleImage'), (req, res, next) =
     } else {
         let article = new Article();
         article.title = req.body.title;
-        article.author = req.body.author;
+        article.userAuthorID = req.user._id;
         article.body = req.body.body;
+        article.author = req.user.name;
         if(req.file !=undefined || req.file != null){
             article.articleImage = req.file.filename;
         }
@@ -53,9 +55,13 @@ router.post('/', imageStorageStartegy.single('articleImage'), (req, res, next) =
 //get single article
 router.get('/:id', function (req, res) {
     Article.findById(req.params.id, function (err, article) {
-        res.render('view-article', {
-            title: 'View Article',
-            article: article
+        User.findById(article.userAuthorID, function(err, user){
+            res.render('view-article', {
+                title: 'View Article',
+                article: article,
+                author: user.name,
+                email: user.email
+        });
         });
     });
 });
@@ -73,7 +79,8 @@ router.post('/:id', function (req, res) {
                 res.locals.user = req.user;
                 res.render('view-article', {
                     title: 'View Article',
-                    article: article
+                    article: article,
+                    author: article.author
                 });
             }
         });
@@ -83,21 +90,26 @@ router.post('/:id', function (req, res) {
 
 
 //Loading edit form
-router.get('/edit/:id', function (req, res) {
+router.get('/edit/:id', checkAuthentication, function (req, res) {
     Article.findById(req.params.id, function (err, article) {
+        if(article.userAuthorID != req.user._id){
+            req.flash('danger', 'Not Authorized');
+            res.redirect('/');
+        }
         res.render('edit-article', {
             title: 'Edit Article',
-            article: article
+            article: article,
+            errors: null
         });
     });
 });
 
 //Update Submit POST Route
-router.post('/edit/:id', checkAuthentication, imageStorageStartegy.single('articleImage'), (req, res, next) => {
+router.post('/edit/:id', imageStorageStartegy.single('articleImage'), (req, res, next) => {
     console.log(req.file);
     let article = {};
     article.title = req.body.title;
-    article.author = req.body.author;
+    //article.author = req.body.author;
     article.body = req.body.body;
     if (req.file != undefined || req.file != null) {
         article.articleImage = req.file.filename;
@@ -117,13 +129,24 @@ router.post('/edit/:id', checkAuthentication, imageStorageStartegy.single('artic
 //Deleting ROUTE
 
 router.delete('/:id', function (req, res) {
-    let query = { _id: req.params.id }
 
-    Article.remove(query, function (err) {
-        if (err) {
-            console.log(err);
+    if (!req.user._id) {
+        res.status(500).send();
+    }
+
+    let query = { _id: req.params.id }
+    Article.findById(req.params.id, function (err, article) {
+        if (article.userAuthorID != req.user._id) {
+            res.status(500).send();
+        } else {
+
+            Article.remove(query, function (err) {
+                if (err) {
+                    console.log(err);
+                }
+                res.send('Success');
+            });
         }
-        res.send('Success');
     });
 });
 
