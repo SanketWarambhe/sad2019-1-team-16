@@ -3,6 +3,13 @@
         <%- include('includes/navigation.ejs') %>
         <div class="container">
             <br>
+            <%- messages('includes/message', locals) %>
+            <% if(errors) {
+                for (let error of errors) {
+            %>
+            <div class="alert alert-danger"><%= error.msg %></div>
+            <%  } 
+            }%>
         <form class="product-form col-lg-6"  method="POST" action="/users/edit/<%= user._id %>">
                 <h3>  My Profile  </h3>
                 <img src="/<%= user.profilePicture %>" style="width:200px;height:200px;">
@@ -10,23 +17,23 @@
                 <br>
                 <div class="form-group">
                         <label for="FullName">FullName</label>
-                        <input class="form-control" type="text" name="FullName" id="fullName" value="<%= user.name %>" disabled="true">
+                        <input class="form-control" type="text" name="name" id="name" value="<%= user.name %>">
                     </div>
                     <div class="form-group">
                         <label for="Email">Email</label>
-                        <input class="form-control" type="text" name="Email" id="email" value="<%= user.email %>" disabled="true">
+                        <input class="form-control" type="text" name="email" id="email" value="<%= user.email %>">
                     </div>
                     <div class="form-group">
-                        <label for="Email">Email</label>
-                        <input class="form-control" type="text" name="username" id="username" value="<%= user.username %>" disabled="true">
+                        <label for="Email">Username</label>
+                        <input class="form-control" type="text" name="username" id="username" value="<%= user.username %>">
                     </div>
                     <div class="form-group">
                         <label for="Email">Password</label>
-                        <input class="form-control" type="text" name="password" id="password">
+                        <input class="form-control" type="password" name="password" id="password">
                     </div>
                     <div class="form-group">
                         <label for="Email">Confirm Password</label>
-                        <input class="form-control" type="text" name="password" id="password">
+                        <input class="form-control" type="password" name="password2" id="password2">
                     </div>
                     <button class="btn btn-success" type="submit" value="Submit">Save Changes</button>
 
