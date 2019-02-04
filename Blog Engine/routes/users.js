@@ -133,7 +133,7 @@ router.post('/contact-us', (req,res)=> {
   // setup email data with unicode symbols
   let mailOptions = {
     from: '"Blog Engine" <noreply.blogengine@gmail>', // sender address
-    to: "sanketwarambhe@gmail.com", // list of receivers
+    to: "samarthsarang1@gmail.com, sanketwarambhe@gmail.com", // list of receivers
     subject: "New user contact", // Subject line
     text: 'Hello Word', // plain text body
     html: output // html body
@@ -199,12 +199,6 @@ router.post('/edit/:id', (req, res) => {
                 errors: errors
             });
         } else {
-            // let newUser = new User({
-            //     name: name,
-            //     email: email,
-            //     username: username,
-            //     password: password,
-            // });
             user.name = name;
             user.email = email;
             user.username = username;

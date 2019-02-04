@@ -100,20 +100,6 @@ app.get('/', (req, res, next) => {
 
 
 
-//edit profile route
-app.get('/edit-profile', (req, res) => {
-    res.render('edit-profile', {
-        title: 'Edit Profile page'
-    });
-});
-//my profile route
-app.get('/profile',(req, res) => {
-    res.render('profile', {
-        title:'profile page'
-    } );
-});
-
-
 //Route files
 let users = require('./routes/users');
 let articles = require('./routes/articles');
