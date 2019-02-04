@@ -7,32 +7,32 @@
         <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item">
-                    <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
+                    <a class="nav-link <%= path === '/homePage' ? 'active' : '' %>" href="/">Home</a>
                 </li>
                 <% if(user) { %>
                 <li class="nav-item">
-                    <a class="nav-link" href="/articles">Add Article</a>
+                    <a class="nav-link <%= path === '/addArticle' ? 'active' : '' %>" href="/articles">Add Article</a>
                 </li>
                 <% } %>
                 <li class="nav-item">
-                    <a class="nav-link" href="/users/contact-us">Contact Us</a>
+                    <a class="nav-link <%= path === '/contact' ? 'active' : '' %>" href="/users/contact-us">Contact Us</a>
                 </li>
                 <li class="nav-item">
-                        <a class="nav-link" href="/about-us">About Us</a>
+                        <a class="nav-link <%= path === '/about' ? 'active' : '' %>" href="/about-us">About Us</a>
                     </li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
                 <% if(!user) { %>
                 <li class="nav-item">
-                    <a class="nav-link" href="/users/register">Sign Up</a>
+                    <a class="nav-link <%= path === '/register' ? 'active' : '' %>" href="/users/register">Sign Up</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/users/login">Login</a>
+                    <a class="nav-link <%= path === '/login' ? 'active' : '' %>" href="/users/login">Login</a>
                 </li>
                 <% } %>
                 <% if(user) { %>
                     <li class="nav-item">
-                        <a class="nav-link" href="/users/view/<%= user._id %>">View Profile</a>
+                        <a class="nav-link <%= path === '/profile' ? 'active' : '' %>" href="/users/view/<%= user._id %>">View Profile</a>
                     </li>
                 <li class="nav-item">
                     <a class="nav-link" href="/users/logout">Logout</a>

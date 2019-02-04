@@ -84,6 +84,7 @@ app.get('/', (req, res, next) => {
         res.render('index', {
             title: 'Articles',
             articles: articles,
+            path: '/homePage',
             currentPage: page,
             hasNextPage: ITEMS_PER_PAGE * page < totalItems,
             hasPreviousPage: page > 1,
@@ -109,7 +110,8 @@ app.use('/articles', articles);
 //about us route
 app.get('/about-us',(req,res)=>{
     res.render('about-us',{
-       title:'about us page'
+       title:'About Us',
+       path: '/about'
     });
 });
 

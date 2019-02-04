@@ -10,7 +10,8 @@ router.get('/', checkAuthentication, (req, res, next) => {
     res.render('add-article', {
         title: 'Add Article',
         author: req.user.name,
-        errors: null
+        errors: null,
+        path: '/addArticle'
     });
     console.log('add page');
 });
@@ -29,7 +30,8 @@ router.post('/', imageStorageStartegy.single('articleImage'), (req, res, next) =
         res.locals.user = req.user
         res.render('add-article', {
             title: 'Add-Article',
-            errors: errors
+            errors: errors,
+            path: 'addArticle'
         });
     } else {
         let article = new Article();
@@ -60,7 +62,8 @@ router.get('/:id', function (req, res) {
                 title: 'View Article',
                 article: article,
                 author: user.name,
-                email: user.email
+                email: user.email,
+                path: '/viewArticle'
         });
         });
     });
@@ -82,7 +85,8 @@ router.post('/:id', function (req, res) {
                         title: 'View Article',
                         article: article,
                         author: article.author,
-                        email: user.email
+                        email: user.email,
+                        path: '/viewArticle'
                     });
                 }
             });
@@ -103,7 +107,8 @@ router.get('/edit/:id', checkAuthentication, function (req, res) {
         res.render('edit-article', {
             title: 'Edit Article',
             article: article,
-            errors: null
+            errors: null,
+            path: '/editArticle'
         });
     });
 });

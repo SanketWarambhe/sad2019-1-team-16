@@ -13,7 +13,8 @@ let User = require('../models/user');
 router.get('/register', function(req, res) {
     res.render('register', {
         title: 'User Registration',
-        errors: null
+        errors: null,
+        path: '/register'
     });
 });
 
@@ -40,7 +41,8 @@ router.post('/register', imageStorageStartegy.single('profilePicture'), function
         res.locals.user = req.user;
         res.render('register', {
             title: 'User Registration',
-            errors: errors
+            errors: errors,
+            path: '/register'
         });
     } else {
         let newUser = new User({
@@ -76,7 +78,8 @@ router.post('/register', imageStorageStartegy.single('profilePicture'), function
 //Login form
 router.get('/login', function(req, res){
     res.render('login', {
-        title: 'Login'
+        title: 'Login',
+        path: '/login'
     });
 });
 
@@ -100,7 +103,8 @@ router.get('/logout', function(req, res){
 router.get('/contact-us',(req,res) => {
     res.render('contact-us', {
         title:'Contact Us',
-        msg: 'Enter your details below'
+        msg: 'Enter your details below',
+        path: '/contact'
     });
 });
 
@@ -157,7 +161,8 @@ router.get('/view/:id',(req, res) => {
     User.findById(req.params.id, function (err, user) {
         res.render('profile', {
             title: 'View Profile',
-            user: user
+            user: user,
+            path: '/profile'
         });
     });
 });
@@ -168,7 +173,8 @@ router.get('/edit/:id',(req, res) => {
         res.render('edit-profile', {
             title: 'Edit Profile',
             user: user,
-            errors: null
+            errors: null,
+            path: '/editProfile'
         });
     });
 });
@@ -195,7 +201,8 @@ router.post('/edit/:id', (req, res) => {
             res.locals.user = req.user;
             res.render('edit-profile', {
                 title: 'Edit Profile',
-                errors: errors
+                errors: errors,
+                path: '/editProfile'
             });
         } else {
             user.name = name;
