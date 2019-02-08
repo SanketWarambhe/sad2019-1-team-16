@@ -13,12 +13,10 @@ router.get('/', checkAuthentication, (req, res, next) => {
         errors: null,
         path: '/addArticle'
     });
-    console.log('add page');
 });
 
 //POST route for submiting articles
 router.post('/', imageStorageStartegy.single('articleImage'), (req, res, next) => {
-    console.log(req.file);
 
     req.checkBody('title', 'Title is required').notEmpty();
     req.checkBody('body', 'Article body is required').notEmpty();
@@ -115,7 +113,6 @@ router.get('/edit/:id', checkAuthentication, function (req, res) {
 
 //Update Submit POST Route
 router.post('/edit/:id', imageStorageStartegy.single('articleImage'), (req, res, next) => {
-    console.log(req.file);
     let article = {};
     article.title = req.body.title;
     //article.author = req.body.author;

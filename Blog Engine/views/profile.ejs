@@ -8,7 +8,11 @@
     <br>
     <div class="row">
         <div class="col-sm-4">
+            <% if( user.profilePicture != undefined ) { %>
             <img src="/<%= user.profilePicture %>" alt="" style="height: 200px; width: 200px; border-style: solid">
+            <% } else { %>
+            <img src="/display-pic.png" alt="" style="height: 200px; width: 200px; border-style: solid">
+            <% } %>
         </div>
         <div class="col-sm-8">
             <div class="form-group">

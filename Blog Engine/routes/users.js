@@ -181,8 +181,6 @@ router.get('/edit/:id',(req, res) => {
 
 router.post('/edit/:id', (req, res) => {
     User.findById(req.params.id, function (err, user) {
-        console.log('Post route for editing user-ID '+req.params.id);
-
         const name = req.body.name;
         const email = req.body.email;
         const username = req.body.username;
@@ -209,15 +207,13 @@ router.post('/edit/:id', (req, res) => {
             user.email = email;
             user.username = username;
             user.password = password;
-            
-            console.log('New password--'+password)
+    
             bcrypt.genSalt(10, function (err, salt) {
                 bcrypt.hash(user.password, salt, function (err, hash) {
                     if (err) {
                         console.log(err);
                     }
                     user.password = hash;
-                    console.log('Hash -- ' + hash)
                     let query = { _id: req.params.id }
                     //Article.update(query, article, 
                     User.update(query, user, function (err) {
