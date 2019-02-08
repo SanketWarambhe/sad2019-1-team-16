@@ -16,7 +16,7 @@ router.get('/', checkAuthentication, (req, res, next) => {
 });
 
 //POST route for submiting articles
-router.post('/', imageStorageStartegy.single('articleImage'), (req, res, next) => {
+router.post('/', checkAuthentication, imageStorageStartegy.single('articleImage'), (req, res, next) => {
 
     req.checkBody('title', 'Title is required').notEmpty();
     req.checkBody('body', 'Article body is required').notEmpty();
@@ -67,11 +67,21 @@ router.get('/:id', function (req, res) {
     });
 });
 
+//Adding a replaceAll function for removing script injections in comments.
+String.prototype.replaceAll = function(search, replacement) {
+    var target = this;
+    return target.replace(new RegExp(search, 'g'), replacement);
+};
+
 //Adding Comments middleware
 router.post('/:id', function (req, res) {
     Article.findById(req.params.id, function (err, article) {
         User.findById(article.userAuthorID, function (err, user) {
-            article.comment.push(req.body.comment);
+            let verfiedComment = req.body.comment;
+            if(req.body.comment.includes('script')){
+                verfiedComment = req.body.comment.replaceAll('script','');
+            }
+            article.comment.push(verfiedComment);
             let query = { _id: req.params.id }
             Article.update(query, article, function (err) {
                 if (err) {
@@ -112,7 +122,7 @@ router.get('/edit/:id', checkAuthentication, function (req, res) {
 });
 
 //Update Submit POST Route
-router.post('/edit/:id', imageStorageStartegy.single('articleImage'), (req, res, next) => {
+router.post('/edit/:id', checkAuthentication, imageStorageStartegy.single('articleImage'), (req, res, next) => {
     let article = {};
     article.title = req.body.title;
     //article.author = req.body.author;

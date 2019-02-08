@@ -167,7 +167,7 @@ router.get('/view/:id',(req, res) => {
     });
 });
 
-router.get('/edit/:id',(req, res) => {
+router.get('/edit/:id', checkAuthentication, (req, res) => {
     User.findById(req.params.id, function (err, user) {
         res.locals.user = req.user;
         res.render('edit-profile', {
@@ -179,7 +179,7 @@ router.get('/edit/:id',(req, res) => {
     });
 });
 
-router.post('/edit/:id', (req, res) => {
+router.post('/edit/:id', checkAuthentication, (req, res) => {
     User.findById(req.params.id, function (err, user) {
         const name = req.body.name;
         const email = req.body.email;
@@ -233,5 +233,15 @@ router.post('/edit/:id', (req, res) => {
 
     });
 });
+
+function checkAuthentication(req, res, next){
+    if(req.isAuthenticated()){
+        return next();
+    }
+    else{
+        req.flash('danger', 'Please Login!');
+        res.redirect('/users/login');
+    }
+}
 
 module.exports = router;
