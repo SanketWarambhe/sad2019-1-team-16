@@ -44,6 +44,10 @@ db.createCollection('users')
 ```
 node app.js
 ```
+8. Local is up at port 1010
+```
+http://localhost:1010/
+```
 
 ## Authors
 ### Sanket Warambhe (11011822)
