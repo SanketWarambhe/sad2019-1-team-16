@@ -11,8 +11,12 @@
             <%  } 
             }%>
         <form class="product-form col-lg-6"  method="POST" action="/users/edit/<%= user._id %>">
-                <h3>  My Profile  </h3>
-                <img src="/<%= user.profilePicture %>" style="height: 200px; width: 200px; border-style: solid">
+                <h3> My Profile </h3>
+                <% if( user.profilePicture != undefined ) { %>
+                <img src="/<%= user.profilePicture %>" alt="" style="height: 200px; width: 200px; border-style: solid">
+                <% } else { %>
+                <img src="/display-pic.png" alt="" style="height: 200px; width: 200px; border-style: solid">
+                <% } %>
                 <br>
                 <br>
                 <div class="form-group">
